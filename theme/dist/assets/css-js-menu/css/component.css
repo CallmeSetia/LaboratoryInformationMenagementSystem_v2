@@ -1,0 +1,216 @@
+@font-face {
+	font-family: 'entypo';
+	src:url('../fonts/controls/entypo.eot');
+	src:url('../fonts/controls/entypo.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/controls/entypo.woff') format('woff'),
+		url('../fonts/controls/entypo.ttf') format('truetype'),
+		url('../fonts/controls/entypo.svg#entypo') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.cbp-bislideshow {
+	list-style: none;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	padding: 0;
+	margin: 0;
+}
+
+.cbp-bislideshow li {
+	position: absolute;
+	width: 101%;
+	height: 101%;
+	top: -0.5%;
+	left: -0.5%;
+	opacity: 0;
+	-webkit-transition: opacity 1s;
+	-moz-transition: opacity 1s;
+	transition: opacity 1s;
+}
+
+/* If background-size supported we'll add the images to the background of the li */
+
+.backgroundsize .cbp-bislideshow li {
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	background-size: cover;
+	background-position: center center;
+}
+
+/* ...and hide the images */
+.backgroundsize .cbp-bislideshow li img {
+	display: none;
+}
+
+.cbp-bislideshow li img {
+	display: block;
+	width: 100%;
+}
+
+.cbp-bicontrols {
+	margin: 0 auto;
+    max-width: 1140px;
+    min-width: 755px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.cbp-bicontrols span {
+	float: left;
+	width: 100px;
+	height: 100px;
+	position: relative;
+	cursor: pointer;
+}
+
+.cbp-bicontrols span:before {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	text-align: center;
+	font-family: 'entypo';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 100px;
+	font-size: 80px;
+	color: #fff;
+	-webkit-font-smoothing: antialiased;
+	opacity: 0.7;
+}
+
+.cbp-bicontrols span:hover:before {
+	opacity: 1;
+}
+
+.cbp-bicontrols span:active:before {
+	top: 2px;
+}
+
+span.cbp-biplay:before {
+	content: "\e002";
+}
+
+span.cbp-bipause:before {
+	content: "\e003";
+}
+
+span.cbp-binext:before {
+	content: "\e000";
+}
+
+span.cbp-biprev:before {
+	content: "\e001";
+}
+
+.cbp-bicontrols span.cbp-binext {
+	float: right;
+}
+
+/* Fallback */
+
+.no-js.no-backgroundsize .cbp-bislideshow li:first-child {
+	opacity: 1;
+}
+
+.no-js.backgroundsize .cbp-bislideshow li:first-child img {
+	display: block;
+}
+@media only screen and (min-width: 748px) and (max-width: 1500px) {
+    .menu-mobile{
+        visibility: hidden;
+        margin-top: -500px;
+    }
+    .menu-mobile2{
+        visibility: show;
+        margin-top: 0px;
+    }
+}
+@media only screen and (max-width: 747px) {
+    .menu-mobile{
+        visibility: show;
+        margin-top: 0px;
+        height: 200px;
+        overflow-y: scroll;
+    }
+    .menu-mobile2{
+        visibility: hidden;
+        margin-top: -500px;
+    }
+}
+/* General button style (reset) */
+.btn {
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+	background: none;
+	cursor: pointer;
+	padding: 10px 0px;
+	display: inline-block;
+	margin: 15px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 700;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+    width: 285px;
+}
+
+.btn:after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+/* Button 1 */
+.btn-1 {
+	background: rgba(0, 51, 190, 0.74);
+	color: #fff;
+}
+
+.btn-1:hover {
+	background: rgba(2, 32, 113, 0.74);
+    color:#fff;
+}
+
+.btn-1:active {
+	background: rgba(0, 23, 85, 0.74);
+    color:#fff;
+	top: 2px;
+}
+
+.btn-1:before {
+	position: absolute;
+	height: 100%;
+	left: 0;
+	top: 0;
+	line-height: 3;
+	font-size: 140%;
+	width: 60px;
+}
+
+/* Button 1a */
+.btn-1a {
+	/*padding: 25px 60px 25px 120px;*/
+	border-radius: 10px;
+}
+
+.btn-1a:before {
+	border-right: 2px solid rgba(255,255,255,0.5);
+}
