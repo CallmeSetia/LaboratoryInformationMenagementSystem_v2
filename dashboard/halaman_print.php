@@ -796,7 +796,7 @@
                         <tr><td colspan="2">Kondisi Luar</td></tr>
                         <tr><td>1</td><td>Warna Drum</td><td>'. $wD_buffer[0] .'</td><td>'. $wD_buffer[1] .'</td><td>'. $wD_buffer[2] .'</td><td>'. $wD_buffer[3] .'</td><td>'. $wD_buffer[4] .'</td><td>'. $wD_buffer[5] .'</td><td>'. $wD_buffer[6] .'</td><td>'. $wD_buffer[7] .'</td></tr>
                         
-                        <tr><td>2</td><td>Terdapat lubang/kebocoran</td><td>'. $tLK_buffer[0] .'</td><td>'. $tLK_buffer[1] .'</td><td>'. $tLK_buffer[2] .'</td><td>'. $tLK_buffer[3] .'</td><td>'. $tLK_buffer[4] .'</td><td>'. $tLK_buffer[5] .'</td><td>'. $tLK_buffer[6] .'</td><td>'. $tLK_buffer[7] .'</td>/tr>
+                        <tr><td>2</td><td>Terdapat lubang/kebocoran</td><td>'. $tLK_buffer[0] .'</td><td>'. $tLK_buffer[1] .'</td><td>'. $tLK_buffer[2] .'</td><td>'. $tLK_buffer[3] .'</td><td>'. $tLK_buffer[4] .'</td><td>'. $tLK_buffer[5] .'</td><td>'. $tLK_buffer[6] .'</td><td>'. $tLK_buffer[7] .'</td>
                         <tr><td>3</td><td>Terdapat lekukan pada bodi</td><td>'. $tLPB_buffer[0] .'</td><td>'. $tLPB_buffer[1] .'</td><td>'. $tLPB_buffer[2] .'</td><td>'. $tLPB_buffer[3] .'</td><td>'. $tLPB_buffer[4] .'</td><td>'. $tLPB_buffer[5] .'</td><td>'. $tLPB_buffer[6] .'</td><td>'. $tLPB_buffer[7] .'</td></tr>
                         
                         <tr><td>4</td><td>Kondisi seal</td><td>'. $kS_buffer[0] .'</td><td>'. $kS_buffer[1] .'</td><td>'. $kS_buffer[2] .'</td><td>'. $kS_buffer[3] .'</td><td>'. $kS_buffer[4] .'</td><td>'. $kS_buffer[5] .'</td><td>'. $kS_buffer[6] .'</td><td>'. $kS_buffer[7] .'</td></tr>
@@ -864,7 +864,7 @@
                         <tr><td colspan="2">Kondisi Luar</td></tr>
                         <tr><td>1</td><td>Warna Drum</td><td>'. $wD_buffer[0] .'</td><td>'. $wD_buffer[1] .'</td><td>'. $wD_buffer[2] .'</td><td>'. $wD_buffer[3] .'</td><td>'. $wD_buffer[4] .'</td><td>'. $wD_buffer[5] .'</td><td>'. $wD_buffer[6] .'</td><td>'. $wD_buffer[7] .'</td></tr>
                         
-                        <tr><td>2</td><td>Terdapat lubang/kebocoran</td><td>'. $tLK_buffer[0] .'</td><td>'. $tLK_buffer[1] .'</td><td>'. $tLK_buffer[2] .'</td><td>'. $tLK_buffer[3] .'</td><td>'. $tLK_buffer[4] .'</td><td>'. $tLK_buffer[5] .'</td><td>'. $tLK_buffer[6] .'</td><td>'. $tLK_buffer[7] .'</td>/tr>
+                        <tr><td>2</td><td>Terdapat lubang/kebocoran</td><td>'. $tLK_buffer[0] .'</td><td>'. $tLK_buffer[1] .'</td><td>'. $tLK_buffer[2] .'</td><td>'. $tLK_buffer[3] .'</td><td>'. $tLK_buffer[4] .'</td><td>'. $tLK_buffer[5] .'</td><td>'. $tLK_buffer[6] .'</td><td>'. $tLK_buffer[7] .'</td>
                         <tr><td>3</td><td>Terdapat lekukan pada bodi</td><td>'. $tLPB_buffer[0] .'</td><td>'. $tLPB_buffer[1] .'</td><td>'. $tLPB_buffer[2] .'</td><td>'. $tLPB_buffer[3] .'</td><td>'. $tLPB_buffer[4] .'</td><td>'. $tLPB_buffer[5] .'</td><td>'. $tLPB_buffer[6] .'</td><td>'. $tLPB_buffer[7] .'</td></tr>
                         
                         <tr><td>4</td><td>Kondisi seal</td><td>'. $kS_buffer[0] .'</td><td>'. $kS_buffer[1] .'</td><td>'. $kS_buffer[2] .'</td><td>'. $kS_buffer[3] .'</td><td>'. $kS_buffer[4] .'</td><td>'. $kS_buffer[5] .'</td><td>'. $kS_buffer[6] .'</td><td>'. $kS_buffer[7] .'</td></tr>

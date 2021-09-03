@@ -161,7 +161,7 @@ function formShow()
     </style>
 </head>
 
-<body data-topbar="colored">
+<body data-topbar="colored" >
 
 
 <!-- Begin page -->
@@ -309,7 +309,11 @@ function formShow()
                                             <input type="text" class="form-control" id="cekSampel" name="cekSampel"
                                                    placeholder="Cek Sampel">
                                         </div>
-
+                                        <div class="form-group mb-4">
+                                            <label for="remarkForm">Remark</label>
+                                            <input type="text" class="form-control" id="remarkForm" name="remarkForm"
+                                                   placeholder="Remark">
+                                        </div>
                                         <div class="form-group mb-4">
                                             <label for="tglEdit">Tanggal Pengecekan</label>
                                             <input type="text" class="form-control" id="tanggal" name="tgl_cek"
@@ -638,13 +642,36 @@ function formShow()
                             </tr>
                         </table>
                     </div>
-
-
                     <div class="form-group mb-4">
                         <label for="tglEdit">Tanggal Pengecekan</label>
                         <input type="text" class="form-control" id="tanggal" name="tgl_cek"
                                value="<?php echo formatTanggal(); ?>" placeholder="Tanggal-Bulan-Tahun">
                     </div>
+                    <div class="form-group mb-4">
+                        <label for="approveForm">Approve by</label>
+                        <input type="text" class="form-control" id="approveForm" name="approveForm"
+                               value="<?php echo $_SESSION['nama_akun']; ?>" placeholder="Approve by (Name)">
+                    </div>
+
+
+                    <div class="form-group mb-4">
+                        <label for="coaForm">COA</label>
+                        <input type="text" class="form-control" id="coaForm" name="coaForm"
+                               placeholder="COA">
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="inspectionResult">Inspection Result</label>
+                        <input type="text" class="form-control" id="inspectionResult" name="inspectionResult"
+                               placeholder="Inspection Result">
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="remarkForm">Remark</label>
+                        <input type="text" class="form-control" id="remarkForm" name="remarkForm"
+                               placeholder="Remark">
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -761,6 +788,11 @@ $jd = "ibc"; ?>
     <div class="form-group mb-4">
         <label for="cekSampel">Cek Sampel</label>
         <input type="text" class="form-control" id="cekSampel" name="cekSampel" placeholder="Cek Sampel">
+    </div>
+    <div class="form-group mb-4">
+        <label for="remarkForm">Remark</label>
+        <input type="text" class="form-control" id="remarkForm" name="remarkForm"
+               placeholder="Remark">
     </div>
 
     <div class="form-group mb-4">
@@ -952,7 +984,11 @@ elseif ($_GET['type'] == "pail") {
         <label for="cekSampel">Cek Sampel</label>
         <input type="text" class="form-control" id="cekSampel" name="cekSampel" placeholder="Cek Sampel">
     </div>
-
+    <div class="form-group mb-4">
+        <label for="remarkForm">Remark</label>
+        <input type="text" class="form-control" id="remarkForm" name="remarkForm"
+               placeholder="Remark">
+    </div>
     <div class="form-group mb-4">
         <label for="tglEdit">Tanggal Pengecekan</label>
         <input type="text" class="form-control" id="tanggal" name="tgl_cek" value="<?php echo formatTanggal(); ?>"
@@ -1254,7 +1290,11 @@ elseif ($_GET['type'] == "pail") {
         <label for="cekSampel">Cek Sampel</label>
         <input type="text" class="form-control" id="cekSampel" name="cekSampel" placeholder="Cek Sampel">
     </div>
-
+    <div class="form-group mb-4">
+        <label for="remarkForm">Remark</label>
+        <input type="text" class="form-control" id="remarkForm" name="remarkForm"
+               placeholder="Remark">
+    </div>
     <div class="form-group mb-4">
         <label for="tglEdit">Tanggal Pengecekan</label>
         <input type="text" class="form-control" id="tanggal" name="tgl_cek" value="<?php echo formatTanggal(); ?>"
@@ -1523,7 +1563,11 @@ elseif ($_GET['type'] == "pail") {
         <label for="cekSampel">Cek Sampel</label>
         <input type="text" class="form-control" id="cekSampel" name="cekSampel" placeholder="Cek Sampel">
     </div>
-
+    <div class="form-group mb-4">
+        <label for="remarkForm">Remark</label>
+        <input type="text" class="form-control" id="remarkForm" name="remarkForm"
+               placeholder="Remark">
+    </div>
     <div class="form-group mb-4">
         <label for="tglEdit">Tanggal Pengecekan</label>
         <input type="text" class="form-control" id="tanggal" name="tgl_cek" value="<?php echo formatTanggal(); ?>"
@@ -1792,7 +1836,11 @@ elseif ($_GET['type'] == "pail") {
         <label for="cekSampel">Cek Sampel</label>
         <input type="text" class="form-control" id="cekSampel" name="cekSampel" placeholder="Cek Sampel">
     </div>
-
+    <div class="form-group mb-4">
+        <label for="remarkForm">Remark</label>
+        <input type="text" class="form-control" id="remarkForm" name="remarkForm"
+               placeholder="Remark">
+    </div>
     <div class="form-group mb-4">
         <label for="tglEdit">Tanggal Pengecekan</label>
         <input type="text" class="form-control" id="tanggal" name="tgl_cek" value="<?php echo formatTanggal(); ?>"
@@ -2038,7 +2086,11 @@ elseif ($_GET['type'] == "pail") {
         <label for="cekSampel">Cek Sampel</label>
         <input type="text" class="form-control" id="cekSampel" name="cekSampel" placeholder="Cek Sampel">
     </div>
-
+    <div class="form-group mb-4">
+        <label for="remarkForm">Remark</label>
+        <input type="text" class="form-control" id="remarkForm" name="remarkForm"
+               placeholder="Remark">
+    </div>
     <div class="form-group mb-4">
         <label for="tglEdit">Tanggal Pengecekan</label>
         <input type="text" class="form-control" id="tanggal" name="tgl_cek" value="<?php echo formatTanggal(); ?>"
@@ -2322,12 +2374,12 @@ elseif ($_GET['type'] == "pail") {
 else {
     echo 'none';
     echo '<style>    
-                                    #tombolSR {    
-                                        display: none;    
-                                        }    
-                                   #topLabel {    
-                                        display: none;    
-                                        }</style>';
+         #tombolSR {    
+             display: none;    
+             }    
+        #topLabel {    
+             display: none;    
+             }</style>';
 
 } ?>
 

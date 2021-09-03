@@ -183,7 +183,7 @@ function throwData() {
         }
     } elseif (strtolower((string) $inD_buffer[0]) == "add") {
         if (grabDataAdd("add", $inD_buffer[1]) == $inD_buffer[1]) {
-            $sql_update = "UPDATE tbl_detail_add SET tgl_cek='" . $_POST['tgl_cek'] . "', approval = '". $_POST['approval'] . "', jml_produk = '". $_POST['jumlahProduct'] . "', item_check = '". $_POST['item_check'] . "', nama_produk = '". $_POST['namaProduct'] . "', nama_psdd = '". $_POST['1,1'] . "', berat_psdpl = '". $_POST['2,1'] . "', seal_tdb = '". $_POST['3,1'] . "', bocorl = '". $_POST['4,1'] . "', kotoranba = '". $_POST['5,1'] . "', penyok = '". $_POST['6,1'] . "', karat = '". $_POST['7,1'] ."' WHERE id_add=" . $inD_buffer[1];
+            $sql_update = "UPDATE tbl_detail_add SET tgl_cek='" . $_POST['tgl_cek'] . "', approval = '". $_POST['approval'] . "', jml_produk = '". $_POST['jumlahProduct'] . "', item_check = '". $_POST['item_check'] . "', nama_produk = '". $_POST['namaProduct'] . "', nama_psdd = '". $_POST['1,1'] . "', berat_psdpl = '". $_POST['2,1'] . "', seal_tdb = '". $_POST['3,1'] . "', bocorl = '". $_POST['4,1'] . "', kotoranba = '". $_POST['5,1'] . "', penyok = '". $_POST['6,1'] . "', karat = '". $_POST['7,1'] ."'WHERE id_add=" . $inD_buffer[1];
             if ($conn->query($sql_update) === TRUE) {
                 echo "Data telah diperbarui!";
                 $FLAG_AMAN = 2;
@@ -192,7 +192,7 @@ function throwData() {
                 $FLAG_AMAN = 0;
             }
         } elseif (grabDataAdd("pcb", $inD_buffer[1]) != $inD_buffer[1]) {
-            $sql_insert = "INSERT INTO tbl_detail_add (id_add, item_check, approval, jml_produk, tgl_cek, nama_produk, nama_psdd, berat_psdpl, seal_tdb, bocorl, kotoranba, penyok, karat) VALUES ('" . $inD_buffer[1] . "', '" . $_POST['item_check'] . "', '" . $_POST['approval'] . "', '" . $_POST['jumlahProduct'] . "', '" . $_POST['tgl_cek'] . "', '" . $_POST['namaProduct'] . "' ,'" . $_POST['1,1'] . "' ,'" . $_POST['2,1'] . "' ,'" . $_POST['3,1'] . "' ,'" . $_POST['4,1'] . "' ,'" . $_POST['5,1'] . "' ,'" . $_POST['6,1'] . "' ,'" . $_POST['7,1'] ."')";
+            $sql_insert = "INSERT INTO tbl_detail_add (id_add, item_check, approval, jml_produk, tgl_cek, nama_produk, nama_psdd, berat_psdpl, seal_tdb, bocorl, kotoranba, penyok, karat) VALUES ('" . $inD_buffer[1] . "', '" . $_POST['item_check'] . "', '" . $_POST['approval'] . "', '" . $_POST['jumlahProduct'] . "', '" . $_POST['tgl_cek'] . "', '" . $_POST['namaProduct'] . "' ,'" . $_POST['1,1'] . "' ,'" . $_POST['2,1'] . "' ,'" . $_POST['3,1'] . "' ,'" . $_POST['4,1'] . "' ,'" . $_POST['5,1'] . "' ,'" . $_POST['6,1'] . "' ,'" . $_POST['7,1'] ."' )";
             if ($conn->query($sql_insert) === TRUE) {
                 echo "Data telah tersimpan!";
                 $FLAG_AMAN = 1;
@@ -210,13 +210,21 @@ function throwData() {
 
     // RECEIVED NAME DAN FINISH TIME - BUKAD ADDIRIVE
     if (!(strtolower((string) $inD_buffer[0]) == "add")) {
-        $sql_updateReceiveName = "UPDATE `tbl_utama_pkg` SET `finnish_time` = '". $_POST['finnish_time']."', `received` = '". $_POST['received_name']."' WHERE `tbl_utama_pkg`.`id_utama` = ' $inD_buffer[1]'";
+
+        $sql_updateReceiveName = "UPDATE `tbl_utama_pkg` SET `finnish_time` = '". $_POST['finnish_time']."', `received` = '". $_POST['received_name']."', `remark` = '". $_POST['remarkForm']."' WHERE `tbl_utama_pkg`.`id_utama` = ' $inD_buffer[1]'";
         $hasilUpdate = $conn->query($sql_updateReceiveName);
+
+//        echo $sql_updateReceiveName;
         if ($hasilUpdate) {
             //echo "Data telah tersimpan!";
         } else {
             //echo "Data gagal disimpan!";
         }
+    }
+
+    else if (strtolower((string) $inD_buffer[0]) == "add") {
+        $sql_updateReceiveName = "UPDATE `tbl_utama_add` SET `approvedBy`='". $_POST['approveForm']."',`coa`='". $_POST['coaForm']."',`inspection_result`='". $_POST['inspectionResult']."',`remark`= '". $_POST['remarkForm']."' WHERE `tbl_utama_add`.`id_utama` = ' $inD_buffer[1]'";
+        $hasilUpdate = $conn->query($sql_updateReceiveName);
     }
 
     if ($FLAG_AMAN == 1) {

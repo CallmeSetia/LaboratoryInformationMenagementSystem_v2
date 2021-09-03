@@ -1,7 +1,7 @@
 <?php
 session_start();
 //print_r($_SESSION);
-require_once  '../koneksi/koneksi.php';
+require_once '../koneksi/koneksi.php';
 
 // ==== KONEKSI DATABASE
 //$incoming_data = $_POST['jenisData'];
@@ -19,18 +19,19 @@ if ($koneksi->connect_errno) {
 $issueDates = formatTanggal();
 $ReceiveTime = date("H:i");
 
-function formatTanggal() {
+function formatTanggal()
+{
     date_default_timezone_set('Asia/Jakarta');
 
     $tgl = date("d"); // date("Y-m-d")
-    $bulan =  date("m");
+    $bulan = date("m");
     $tahun = date("Y");
 
-    $templateNamaBulan = ["Jan", "Feb", "Mar", "Apr","May", "Jun","Jul","Aug", "Sep", "Oct", "Nov","Dec"];
+    $templateNamaBulan = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-    $bulan = $templateNamaBulan[((int) $bulan) - 1];
+    $bulan = $templateNamaBulan[((int)$bulan) - 1];
 
-    return $tgl."-".$bulan."-".$tahun;
+    return $tgl . "-" . $bulan . "-" . $tahun;
 }
 
 function tampilTombolTambahData()
@@ -38,20 +39,19 @@ function tampilTombolTambahData()
     if (strtolower((string)$_SESSION['role']) == "siteman") {
         if ($_GET['page'] == "packaging") {
             return ' <button class="btn btn-success btn-rounded" data-toggle="modal" data-target="#modal-pkg-tambah" href="javascript:void(0)"><i class="mdi mdi-plus-thick"></i></button>';
-        }
-        else {
+        } else {
             return ' <button class="btn btn-success btn-rounded" data-toggle="modal" data-target="#modal-add-tambah" href="javascript:void(0)"><i class="mdi mdi-plus-thick"></i></button>';
         }
 
     }
 }
+
 function tampilTombolExportData()
 {
     if (strtolower((string)$_SESSION['role']) == "analyst") {
         if ($_GET['page'] == "packaging") {
             return '<a href="export_data_pkg.php"><button class="btn btn-success btn-rounded"  href="javascript:void(0)"><i class="fa fa-download"></i> </button></a>';
-        }
-        else {
+        } else {
             return '<a href="export_data_add.php"   ><button class="btn btn-success btn-rounded"  href="javascript:void(0)"><i class="fa fa-download"></i> </button></a>';
         }
 
@@ -59,22 +59,24 @@ function tampilTombolExportData()
 }
 
 //getId("pm", $row['id_item_pkg']); // pm, 19
-function getId($type, $number) {
+function getId($type, $number)
+{
     $DB_HOST = "127.0.0.1";
     $DB_USER = "root";
     $DB_PASS = "";
     $DB_DATABASE = "lims";
     $koneksi = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_DATABASE);
     // tbl_utama
-    $queryDetail = $koneksi->query("SELECT * FROM tbl_detail_pkg_". $type ." WHERE id_" . $type ."=". $number);
+    $queryDetail = $koneksi->query("SELECT * FROM tbl_detail_pkg_" . $type . " WHERE id_" . $type . "=" . $number);
     if ($num_rows = $queryDetail->num_rows > 0) {
-        while ($rowP = $queryDetail->fetch_assoc()){
-            return $rowP["id_". $type];
+        while ($rowP = $queryDetail->fetch_assoc()) {
+            return $rowP["id_" . $type];
         }
     }
 }
 
-function getDetailPKG($type, $number){
+function getDetailPKG($type, $number)
+{
     $DB_HOST = "127.0.0.1";
     $DB_USER = "root";
     $DB_PASS = "";
@@ -82,23 +84,23 @@ function getDetailPKG($type, $number){
     $koneksi = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_DATABASE);
     // tbl_utama
 //    echo $type;
-    $queryDetail = $koneksi->query("SELECT * FROM tbl_detail_pkg_". $type ." LEFT JOIN tbl_utama_pkg ON tbl_detail_pkg_". $type . ".id_" . $type." = tbl_utama_pkg.id_utama LEFT JOIN tbl_data_item_pkg ON tbl_utama_pkg.id_item_pkg = tbl_data_item_pkg.id_item_pkg WHERE id_utama = ". $number);
+    $queryDetail = $koneksi->query("SELECT * FROM tbl_detail_pkg_" . $type . " LEFT JOIN tbl_utama_pkg ON tbl_detail_pkg_" . $type . ".id_" . $type . " = tbl_utama_pkg.id_utama LEFT JOIN tbl_data_item_pkg ON tbl_utama_pkg.id_item_pkg = tbl_data_item_pkg.id_item_pkg WHERE id_utama = " . $number);
     if ($num_rows = $queryDetail->num_rows > 0) {
-        while ($rowP = $queryDetail->fetch_assoc()){
+        while ($rowP = $queryDetail->fetch_assoc()) {
             if ($type == "pm") {
-                return ($rowP['id_pm']. '@'  .$rowP['quantity']. '@'  .$rowP['packaging_name']. '@'  .$rowP['tgl_cek']. '@'  .$rowP['approval']. '@'  .$rowP['cek_sampel']. '@'  .$rowP['warna_botol']. '@'  .$rowP['kondisi_screw']. '@'  .$rowP['tempat_lubang']. '@'  .$rowP['label_depan']. '@'  .$rowP['label_belakang']. '@'  .$rowP['cacat']. '@'  .$rowP['posisi_ldb']. '@'  .$rowP['kotoran']. '@'  .$rowP['benda_asing']. '@'  .$rowP['npt']. '@'  .$rowP['doc_no']);
+                return ($rowP['id_pm'] . '@' . $rowP['quantity'] . '@' . $rowP['packaging_name'] . '@' . $rowP['tgl_cek'] . '@' . $rowP['approval'] . '@' . $rowP['cek_sampel'] . '@' . $rowP['warna_botol'] . '@' . $rowP['kondisi_screw'] . '@' . $rowP['tempat_lubang'] . '@' . $rowP['label_depan'] . '@' . $rowP['label_belakang'] . '@' . $rowP['cacat'] . '@' . $rowP['posisi_ldb'] . '@' . $rowP['kotoran'] . '@' . $rowP['benda_asing'] . '@' . $rowP['npt'] . '@' . $rowP['doc_no']);
 
             } elseif ($type == "pd") {
-                return ($rowP['id_pd']. '@'  .$rowP['quantity']. '@'  .$rowP['packaging_name']. '@'  .$rowP['tgl_cek']. '@'  .$rowP['approval']. '@'  .$rowP['cek_sampel']. '@'  .$rowP['warna_drum']. '@'  .$rowP['terdapat_lk']. '@'  .$rowP['terdapat_lpb']. '@'  .$rowP['kondisi_seal']. '@'  .$rowP['kotoran']. '@'  .$rowP['karat']. '@'  .$rowP['benda_asing']. '@'  .$rowP['bau_ytb']. '@'  .$rowP['doc_no']);
+                return ($rowP['id_pd'] . '@' . $rowP['quantity'] . '@' . $rowP['packaging_name'] . '@' . $rowP['tgl_cek'] . '@' . $rowP['approval'] . '@' . $rowP['cek_sampel'] . '@' . $rowP['warna_drum'] . '@' . $rowP['terdapat_lk'] . '@' . $rowP['terdapat_lpb'] . '@' . $rowP['kondisi_seal'] . '@' . $rowP['kotoran'] . '@' . $rowP['karat'] . '@' . $rowP['benda_asing'] . '@' . $rowP['bau_ytb'] . '@' . $rowP['doc_no']);
             } elseif ($type == "pcb") {
-                return ($rowP['id_pcb']. '@'  .$rowP['quantity']. '@'  .$rowP['packaging_name']. '@'  .$rowP['tgl_cek']. '@'  .$rowP['approval']. '@'  .$rowP['cek_sampel']. '@'  .$rowP['kondisi_cart']. '@'  .$rowP['warna_cart']. '@'  .$rowP['kotoran_l']. '@'  .$rowP['gambar']. '@'  .$rowP['label']. '@'  .$rowP['kotoran_d']. '@'  .$rowP['coa']. '@'  .$rowP['doc_no']);
+                return ($rowP['id_pcb'] . '@' . $rowP['quantity'] . '@' . $rowP['packaging_name'] . '@' . $rowP['tgl_cek'] . '@' . $rowP['approval'] . '@' . $rowP['cek_sampel'] . '@' . $rowP['kondisi_cart'] . '@' . $rowP['warna_cart'] . '@' . $rowP['kotoran_l'] . '@' . $rowP['gambar'] . '@' . $rowP['label'] . '@' . $rowP['kotoran_d'] . '@' . $rowP['coa'] . '@' . $rowP['doc_no']);
             } elseif ($type == "pc") {
 //                echo "INI PC";
-                return ($rowP['id_pc']. '@'  .$rowP['quantity']. '@'  .$rowP['packaging_name']. '@'  .$rowP['tgl_cek']. '@'  .$rowP['approval']. '@'  .$rowP['cek_sampel']. '@'  .$rowP['warna_cap']. '@'  .$rowP['kotoran']. '@'  .$rowP['goresan_pc']. '@'  .$rowP['cacat_pc']. '@'  .$rowP['lubang']. '@'  .$rowP['kondisi_seal']. '@'  .$rowP['terdapat_bami']. '@'  .$rowP['doc_no']);
+                return ($rowP['id_pc'] . '@' . $rowP['quantity'] . '@' . $rowP['packaging_name'] . '@' . $rowP['tgl_cek'] . '@' . $rowP['approval'] . '@' . $rowP['cek_sampel'] . '@' . $rowP['warna_cap'] . '@' . $rowP['kotoran'] . '@' . $rowP['goresan_pc'] . '@' . $rowP['cacat_pc'] . '@' . $rowP['lubang'] . '@' . $rowP['kondisi_seal'] . '@' . $rowP['terdapat_bami'] . '@' . $rowP['doc_no']);
             } elseif ($type == "p") {
-                return ($rowP['id_p']. '@'  .$rowP['quantity']. '@'  .$rowP['packaging_name']. '@'  .$rowP['tgl_cek']. '@'  .$rowP['approval']. '@'  .$rowP['cek_sampel']. '@'  .$rowP['warna_pail']. '@'  .$rowP['terdapat_lk']. '@'  .$rowP['terdapat_lpb']. '@'  .$rowP['kondisi_seal']. '@'  .$rowP['kotoran']. '@'  .$rowP['karat']. '@'  .$rowP['benda_asing']. '@'  .$rowP['kotoran_ytb']. '@'  .$rowP['doc_no']);
+                return ($rowP['id_p'] . '@' . $rowP['quantity'] . '@' . $rowP['packaging_name'] . '@' . $rowP['tgl_cek'] . '@' . $rowP['approval'] . '@' . $rowP['cek_sampel'] . '@' . $rowP['warna_pail'] . '@' . $rowP['terdapat_lk'] . '@' . $rowP['terdapat_lpb'] . '@' . $rowP['kondisi_seal'] . '@' . $rowP['kotoran'] . '@' . $rowP['karat'] . '@' . $rowP['benda_asing'] . '@' . $rowP['kotoran_ytb'] . '@' . $rowP['doc_no']);
             } elseif ($type == "ibc") {
-                return ($rowP['id_ibc']. '@'  .$rowP['quantity']. '@'  .$rowP['packaging_name']. '@'  .$rowP['tgl_cek']. '@'  .$rowP['approval']. '@'  .$rowP['cek_sampel']. '@'  .$rowP['kondisi_vn']. '@'  .$rowP['terdapat_lk']. '@'  .$rowP['kotoran']. '@'  .$rowP['air_oli']. '@'  .$rowP['doc_no']);
+                return ($rowP['id_ibc'] . '@' . $rowP['quantity'] . '@' . $rowP['packaging_name'] . '@' . $rowP['tgl_cek'] . '@' . $rowP['approval'] . '@' . $rowP['cek_sampel'] . '@' . $rowP['kondisi_vn'] . '@' . $rowP['terdapat_lk'] . '@' . $rowP['kotoran'] . '@' . $rowP['air_oli'] . '@' . $rowP['doc_no']);
             } else {
                 return 0;
             }
@@ -106,65 +108,68 @@ function getDetailPKG($type, $number){
     }
 }
 
-function getIdA($number) {
+function getIdA($number)
+{
     $DB_HOST = "127.0.0.1";
     $DB_USER = "root";
     $DB_PASS = "";
     $DB_DATABASE = "lims";
     $koneksi = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_DATABASE);
     // tbl_utama
-    $queryDetail = $koneksi->query("SELECT * FROM tbl_detail_add WHERE id_add=". $number);
+    $queryDetail = $koneksi->query("SELECT * FROM tbl_detail_add WHERE id_add=" . $number);
     if ($num_rows = $queryDetail->num_rows > 0) {
-        while ($rowP = $queryDetail->fetch_assoc()){
+        while ($rowP = $queryDetail->fetch_assoc()) {
             return $rowP["id_add"];
         }
     }
 }
 
-function getDetailADD($number){
+function getDetailADD($number)
+{
     $DB_HOST = "127.0.0.1";
     $DB_USER = "root";
     $DB_PASS = "";
     $DB_DATABASE = "lims";
     $koneksi = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_DATABASE);
     // tbl_utama
-    $queryDetail = $koneksi->query("SELECT * FROM tbl_detail_add LEFT JOIN tbl_utama_add ON tbl_detail_add.id_add = tbl_utama_add.id_utama LEFT JOIN tbl_data_item_add ON tbl_utama_add.id_item_add = tbl_data_item_add.id_item_add WHERE id_utama = ". $number);
+    $queryDetail = $koneksi->query("SELECT * FROM tbl_detail_add LEFT JOIN tbl_utama_add ON tbl_detail_add.id_add = tbl_utama_add.id_utama LEFT JOIN tbl_data_item_add ON tbl_utama_add.id_item_add = tbl_data_item_add.id_item_add WHERE id_utama = " . $number);
     if ($num_rows = $queryDetail->num_rows > 0) {
-        while ($rowP = $queryDetail->fetch_assoc()){
-            return ($rowP['id_add']. '@'  .$rowP['item_check']. '@'  .$rowP['quantity']. '@'  .$rowP['nama_produk']. '@'  .$rowP['tgl_cek']. '@'  .$rowP['approval']. '@'  .$rowP['lot_no']. '@'  .$rowP['nama_psdd']. '@'  .$rowP['berat_psdpl']. '@'  .$rowP['seal_tdb']. '@'  .$rowP['bocorl']. '@'  .$rowP['kotoranba']. '@'  .$rowP['penyok']. '@'  .$rowP['karat']. '@'  .$rowP['doc_no']);
+        while ($rowP = $queryDetail->fetch_assoc()) {
+            return ($rowP['id_add'] . '@' . $rowP['item_check'] . '@' . $rowP['quantity'] . '@' . $rowP['nama_produk'] . '@' . $rowP['tgl_cek'] . '@' . $rowP['approval'] . '@' . $rowP['lot_no'] . '@' . $rowP['nama_psdd'] . '@' . $rowP['berat_psdpl'] . '@' . $rowP['seal_tdb'] . '@' . $rowP['bocorl'] . '@' . $rowP['kotoranba'] . '@' . $rowP['penyok'] . '@' . $rowP['karat'] . '@' . $rowP['doc_no']);
         }
     }
 }
 
-function tampilTombolPrint($idAF, $idTF, $pP, $dataIn, $approval, $tubes = NULL){
-    if($idAF == $idTF && $approval == 1) {
-        return '<form action="../dashboard/halaman_print.php?data='. $pP .'" method="POST"> <button name="data_print" value="'. $dataIn .'" class="btn btn-primary mb-2 ">Print</button></form>';
-    }
-    else {
+function tampilTombolPrint($idAF, $idTF, $pP, $dataIn, $approval, $tubes = NULL)
+{
+    if ($idAF == $idTF && $approval == 1) {
+        return '<form action="../dashboard/halaman_print.php?data=' . $pP . '" method="POST"> <button name="data_print" value="' . $dataIn . '" class="btn btn-primary mb-2 ">Print</button></form>';
+    } else {
         return '<button class="btn btn-primary mb-2 " disabled>Print</button></form>';
     }
 }
 
-function tampilTombolEditData($jenis, $pkgn, $itmc, $idipg, $tglIn, $jmlP){
-    if (strtolower((string) $_SESSION['role']) == "analyst") {
-        return '<form action="edit_data.php?type='.$jenis.'" method="POST"><button name="data_edit" value="'.$jenis.'#'.$pkgn.'#'.$itmc.'#'.$idipg.'#'.$tglIn.'#'.$jmlP.'" class="btn btn-primary mb-2 ">Edit</button></form>';
-    }
-    else if (strtolower((string) $_SESSION['role']) == "siteman") {
-        return '<form action="edit_data_utama.php" method="POST"><input type="hidden" name="mode" value="'.$pkgn.'"/><button name="id_utama" value="'.$jenis.'" class="btn btn-primary mb-2 ">Edit</button></form>';
+function tampilTombolEditData($jenis, $pkgn, $itmc, $idipg, $tglIn, $jmlP)
+{
+    if (strtolower((string)$_SESSION['role']) == "analyst") {
+        return '<form action="edit_data.php?type=' . $jenis . '" method="POST"><button name="data_edit" value="' . $jenis . '#' . $pkgn . '#' . $itmc . '#' . $idipg . '#' . $tglIn . '#' . $jmlP . '" class="btn btn-primary mb-2 ">Edit</button></form>';
+    } else if (strtolower((string)$_SESSION['role']) == "siteman") {
+        return '<form action="edit_data_utama.php" method="POST"><input type="hidden" name="mode" value="' . $pkgn . '"/><button name="id_utama" value="' . $jenis . '" class="btn btn-primary mb-2 ">Edit</button></form>';
     }
 }
 
-function tampilTombolHapusData($jenis, $pkgn, $itmc, $idipg, $tglIn){
-    if (strtolower((string) $_SESSION['role']) == "analyst") {
+function tampilTombolHapusData($jenis, $pkgn, $itmc, $idipg, $tglIn)
+{
+    if (strtolower((string)$_SESSION['role']) == "analyst") {
 //        return '<form action="hapus_data_utama.php?type='.$jenis.'" method="POST"><button name="data_edit" value="'.$jenis.'#'.$pkgn.'#'.$itmc.'#'.$idipg.'#'.$tglIn.'" class="btn btn-primary mb-2 ">Edit</button></form>';
-    }
-    else if (strtolower((string) $_SESSION['role']) == "siteman") {
-        return '<form action="hapus_data_utama.php" method="POST"><input type="hidden" name="mode" value="'.$pkgn.'"/><input type="hidden" name="jenis" value="'.$itmc.'"/><input type="hidden" name="id_pkg" value="'.$idipg.'"/> <button name="id_utama" value="'.$jenis.'" class="btn btn-primary mb-2 ">Hapus</button></form>';
+    } else if (strtolower((string)$_SESSION['role']) == "siteman") {
+        return '<form action="hapus_data_utama.php" method="POST"><input type="hidden" name="mode" value="' . $pkgn . '"/><input type="hidden" name="jenis" value="' . $itmc . '"/><input type="hidden" name="id_pkg" value="' . $idipg . '"/> <button name="id_utama" value="' . $jenis . '" class="btn btn-primary mb-2 ">Hapus</button></form>';
     }
 }
 
-function tampilTabel($jenis_tabel, $koneksi) {
-    if (strtolower($jenis_tabel) == "packaging"){
+function tampilTabel($jenis_tabel, $koneksi)
+{
+    if (strtolower($jenis_tabel) == "packaging") {
         echo '
          <div class="page-content-wrapper">
             <div class="container-fluid">
@@ -195,131 +200,125 @@ function tampilTabel($jenis_tabel, $koneksi) {
                                         </thead>
                                         <tbody> ';
 
-                                        // ====== END KONEKSI
-                                        $hasilQuery = $koneksi->query("SELECT * FROM `tbl_utama_pkg` LEFT JOIN tbl_data_item_pkg ON tbl_data_item_pkg.id_item_pkg = tbl_utama_pkg.id_item_pkg");
-                                        if ($num_rows = $hasilQuery->num_rows > 0) {
-                                            while ($row = $hasilQuery->fetch_assoc()){
-                                                echo '
+        // ====== END KONEKSI
+        $hasilQuery = $koneksi->query("SELECT * FROM `tbl_utama_pkg` LEFT JOIN tbl_data_item_pkg ON tbl_data_item_pkg.id_item_pkg = tbl_utama_pkg.id_item_pkg");
+        if ($num_rows = $hasilQuery->num_rows > 0) {
+            while ($row = $hasilQuery->fetch_assoc()) {
+                echo '
                                                             <tr>
-                                                                <td>'.$row['date'] .'</td>
-                                                             <!--   <td>'.$row['doc_no'] .'</td> -->
-                                                                <td>'.$row['receive_time'] .'</td>
-                                                                <td>'.$row['item_code'] .'</td>
-                                                                <td>'.$row['packaging_name'] .'</td>
-                                                                <td>'.$row['suplier_name'] .'</td>
-                                                                <td>'.$row['quantity'] .'</td>
-                                                                <td>'.$row['packaging_condition'] .'</td>
-                                                                <td>'.$row['status'] .'</td>
-                                                                <td>'.$row['remark'] .'</td>
-                                                                <td>'.$row['submitted'] .'</td>
-                                                                <td>'.$row['received'] .'</td>
-                                                                <td>'.$row['finnish_time'] .'</td>
+                                                                <td>' . $row['date'] . '</td>
+                                                             <!--   <td>' . $row['doc_no'] . '</td> -->
+                                                                <td>' . $row['receive_time'] . '</td>
+                                                                <td>' . $row['item_code'] . '</td>
+                                                                <td>' . $row['packaging_name'] . '</td>
+                                                                <td>' . $row['suplier_name'] . '</td>
+                                                                <td>' . $row['quantity'] . '</td>
+                                                                <td>' . $row['packaging_condition'] . '</td>
+                                                                <td>' . $row['status'] . '</td>
+                                                                <td>' . $row['remark'] . '</td>
+                                                                <td>' . $row['submitted'] . '</td>
+                                                                <td>' . $row['received'] . '</td>
+                                                                <td>' . $row['finnish_time'] . '</td>
                                                                ';
-                                                // KONVERSI JADi Jenis Package
-                                                $itemCheck = strtolower($row['item_check']);
-                                                $jenisPackage = "";
-                                                $pkg_name = $row['packaging_name'];
-                                                $itm_code = $row['item_code'];
-                                                $quantity = $row['quantity'];
+                // KONVERSI JADi Jenis Package
+                $itemCheck = strtolower($row['item_check']);
+                $jenisPackage = "";
+                $pkg_name = $row['packaging_name'];
+                $itm_code = $row['item_code'];
+                $quantity = $row['quantity'];
 
-                                                $id_pkg = $row['id_item_pkg'];
-                                                $id_utama = $row['id_utama'];
+                $id_pkg = $row['id_item_pkg'];
+                $id_utama = $row['id_utama'];
 
-                                                $tgl_masuk = $row['date'];
-                                                $idA = $row['id_utama'];
-                                //                echo $itemCheck."-";
+                $tgl_masuk = $row['date'];
+                $idA = $row['id_utama'];
+                //                echo $itemCheck."-";
 
-                                                if ($itemCheck == "botol") {
-                                                    $jenisPackage = "material";
-                                                    $idT = getId("pm", $row['id_utama']);
-                                                    $halamanPrint = "pm";
-                                                    $dataCol = getDetailPKG("pm", $row['id_utama']);
+                if ($itemCheck == "botol") {
+                    $jenisPackage = "material";
+                    $idT = getId("pm", $row['id_utama']);
+                    $halamanPrint = "pm";
+                    $dataCol = getDetailPKG("pm", $row['id_utama']);
 
-                                                }
-                                                else if ( $itemCheck == "tube") {
-                                                    $jenisPackage = "material";
-                                                    $idT = getId("pm", $row['id_utama']);
-                                                    $halamanPrint = "pm";
-                                                    $dataCol = getDetailPKG("pm", $row['id_utama']);
-                                                }
-                                                elseif ($itemCheck == "cap" || $itemCheck == "cover cap") {
+                } else if ($itemCheck == "tube") {
+                    $jenisPackage = "material";
+                    $idT = getId("pm", $row['id_utama']);
+                    $halamanPrint = "pm";
+                    $dataCol = getDetailPKG("pm", $row['id_utama']);
+                } elseif ($itemCheck == "cap" || $itemCheck == "cover cap") {
 
-                                                    $jenisPackage = "cap";
-                                                    $idT = getId("pc", $row['id_utama']);
-                                //                    echo "hai";
-                                                    $halamanPrint = "pc";
-                                                    $dataCol = getDetailPKG("pc", $row['id_utama']);
-                                                } elseif ($itemCheck == "pail") {
-                                                    $jenisPackage = "pail";
-                                                    $idT = getId("p", $row['id_utama']);
-                                                    $halamanPrint = "p";
-                                                    $dataCol = getDetailPKG("p", $row['id_utama']);
-                                                } elseif ($itemCheck == "drum") {
-                                                    $jenisPackage = "drum";
-                                                    $idT = getId("pd", $row['id_utama']);
-                                                    $halamanPrint = "pd";
-                                                    $dataCol = getDetailPKG("pd", $row['id_utama']);
-                                                } elseif ($itemCheck == "carton") {
-                                                    $jenisPackage = "cartonbox";
-                                                    $idT = getId("pcb", $row['id_utama']);
-                                                    $halamanPrint = "pcb";
-                                                    $dataCol = getDetailPKG("pcb", $row['id_utama']);
-                                                } elseif ($itemCheck == "ibc") {
-                                                    $jenisPackage = "ibc";
-                                                    $idT = getId("ibc", $row['id_utama']);
-                                                    $halamanPrint = "ibc";
-                                                    $dataCol = getDetailPKG("ibc", $row['id_utama']);
-                                                }
-                                                else {
-                                                    $idT = "";
-                                                    $halamanPrint = "";
-                                                    $dataCol = "";
-                                                }
+                    $jenisPackage = "cap";
+                    $idT = getId("pc", $row['id_utama']);
+                    //                    echo "hai";
+                    $halamanPrint = "pc";
+                    $dataCol = getDetailPKG("pc", $row['id_utama']);
+                } elseif ($itemCheck == "pail") {
+                    $jenisPackage = "pail";
+                    $idT = getId("p", $row['id_utama']);
+                    $halamanPrint = "p";
+                    $dataCol = getDetailPKG("p", $row['id_utama']);
+                } elseif ($itemCheck == "drum") {
+                    $jenisPackage = "drum";
+                    $idT = getId("pd", $row['id_utama']);
+                    $halamanPrint = "pd";
+                    $dataCol = getDetailPKG("pd", $row['id_utama']);
+                } elseif ($itemCheck == "carton") {
+                    $jenisPackage = "cartonbox";
+                    $idT = getId("pcb", $row['id_utama']);
+                    $halamanPrint = "pcb";
+                    $dataCol = getDetailPKG("pcb", $row['id_utama']);
+                } elseif ($itemCheck == "ibc") {
+                    $jenisPackage = "ibc";
+                    $idT = getId("ibc", $row['id_utama']);
+                    $halamanPrint = "ibc";
+                    $dataCol = getDetailPKG("ibc", $row['id_utama']);
+                } else {
+                    $idT = "";
+                    $halamanPrint = "";
+                    $dataCol = "";
+                }
 
-                                                if ($itemCheck == "label") {
-                                                    $jenisPackage = "lbl";
+                if ($itemCheck == "label") {
+                    $jenisPackage = "lbl";
 
-                                                }
-                                                // APPROVAL
+                }
+                // APPROVAL
 
-                                                $approval = 0;
-                                                $sql_select_aproval = "SELECT * FROM tbl_detail_pkg_" . $halamanPrint . " WHERE id_".$halamanPrint." = '$id_utama'";
-                                                $hasilApproval = $koneksi->query($sql_select_aproval);
-                                                if ($hasilApproval) {
-                                                    if ($num_rows = $hasilApproval->num_rows > 0) {
-                                                        $row_detail = $hasilApproval->fetch_assoc();
+                $approval = 0;
+                $sql_select_aproval = "SELECT * FROM tbl_detail_pkg_" . $halamanPrint . " WHERE id_" . $halamanPrint . " = '$id_utama'";
+                $hasilApproval = $koneksi->query($sql_select_aproval);
+                if ($hasilApproval) {
+                    if ($num_rows = $hasilApproval->num_rows > 0) {
+                        $row_detail = $hasilApproval->fetch_assoc();
 
-                                                        if ($row_detail['approval'] != 0 && $row_detail['approval'] != NULL  ) {
-                                                            $approval = 1;
-                                                        }
-                                                    }
-                                                }
+                        if ($row_detail['approval'] != 0 && $row_detail['approval'] != NULL) {
+                            $approval = 1;
+                        }
+                    }
+                }
 
-                                                if ($approval == 1 ) {
-                                                    echo "<td>OKE</td>";
-                                                }
-                                                else {
-                                                    echo "<td>TIDAK</td>";
-                                                }
+                if ($approval == 1) {
+                    echo "<td>OKE</td>";
+                } else {
+                    echo "<td>TIDAK</td>";
+                }
 
-                                                // ACTION
-                                                if (strtolower((string) $_SESSION['role']) == "analyst") {
-                                                    echo '<td>'.tampilTombolEditData($jenisPackage, $pkg_name, $itm_code, $id_utama, $tgl_masuk, $quantity). tampilTombolPrint($idA, $idT, $halamanPrint, $dataCol, $approval) .'</td>';
-                                                }
-                                                else if (strtolower((string) $_SESSION['role']) == "siteman") {
-                                                    echo '<td>'.tampilTombolEditData($row['id_utama'], "packaging", NULL, NULL, NULL, NULL).tampilTombolHapusData($row['id_utama'], "packaging", $jenisPackage, $id_utama, NULL).'</td>';
-                                                }
+                // ACTION
+                if (strtolower((string)$_SESSION['role']) == "analyst") {
+                    echo '<td>' . tampilTombolEditData($jenisPackage, $pkg_name, $itm_code, $id_utama, $tgl_masuk, $quantity) . tampilTombolPrint($idA, $idT, $halamanPrint, $dataCol, $approval) . '</td>';
+                } else if (strtolower((string)$_SESSION['role']) == "siteman") {
+                    echo '<td>' . tampilTombolEditData($row['id_utama'], "packaging", NULL, NULL, NULL, NULL) . tampilTombolHapusData($row['id_utama'], "packaging", $jenisPackage, $id_utama, NULL) . '</td>';
+                }
 
-                                                echo ' </tr>';
-                                            }
-                                        }
-                                        else {
-                                            echo '
+                echo ' </tr>';
+            }
+        } else {
+            echo '
                                                 <tr>
                                                     <td colspan="14" class="text-center">Tidak Ada Data</td>
                                                 </tr>
                                                 ';
-                                        }
+        }
         echo '                </tbody>
                           </table>
                       </div>
@@ -329,9 +328,7 @@ function tampilTabel($jenis_tabel, $koneksi) {
       </div>
     </div>';
 
-    }
-
-    // ADDITIVE
+    } // ADDITIVE
     else if (strtolower($jenis_tabel) == "additive") {
 
         echo '
@@ -350,6 +347,10 @@ function tampilTabel($jenis_tabel, $koneksi) {
                                         <th>Additive</th>
                                         <th>Weight</th>
                                         <th>Quantity</th>
+                                        <th>Inspector By</th>
+                                        <th>COA</th>
+                                        <th>Inspection Result</th>
+                                        <th>Approved By</th>
                                         <th>Approval</th>
                                         <th colspan="" class=""> ACTION</th>
                                        </tr>
@@ -363,12 +364,16 @@ function tampilTabel($jenis_tabel, $koneksi) {
             while ($row = $hasilQuery->fetch_assoc()) {
                 echo '
                 <tr>
-                     <td>'.$row['date'] .'</td>
-                     <td>'.$row['doc_no'] .'</td> 
-                     <td>'.$row['lot_no'] .'</td>
-                     <td>'.$row['additive'] .'</td>
-                     <td>'.$row['weight'] .'</td>
-                     <td>'.$row['quantity'] .'</td>
+                     <td>' . $row['date'] . '</td>
+                     <td>' . $row['doc_no'] . '</td> 
+                     <td>' . $row['lot_no'] . '</td>
+                     <td>' . $row['additive'] . '</td>
+                     <td>' . $row['weight'] . '</td>
+                     <td>' . $row['quantity'] . '</td>
+                     <td>' . $row['inspector'] . '</td>
+                     <td>' . $row['coa'] . '</td>
+                     <td>' . $row['inspection_result'] . '</td>
+                      <td>' . $row['approvedBy'] . '</td>
                      ';
                 $pkg_name = $row['additive'];
                 $itm_code = $row['lot_no'];
@@ -388,31 +393,28 @@ function tampilTabel($jenis_tabel, $koneksi) {
                     if ($num_rows = $hasilApproval->num_rows > 0) {
                         $row_detail = $hasilApproval->fetch_assoc();
 
-                        if ($row_detail['approval'] != 0 && $row_detail['approval'] != NULL  ) {
+                        if ($row_detail['approval'] != 0 && $row_detail['approval'] != NULL) {
                             $approval = 1;
                         }
                     }
                 }
 
-                if ($approval == 1 ) {
+                if ($approval == 1) {
                     echo "<td>OKE</td>";
-                }
-                else {
+                } else {
                     echo "<td>TIDAK</td>";
                 }
-                if (strtolower((string) $_SESSION['role']) == "analyst") {
-                    echo '<td>'.tampilTombolEditData($jenisPackage, $pkg_name, $itm_code, $id_pkg, $tgl_masuk, $quantity). tampilTombolPrint($idA, $idT, "add", $dataCol, $approval) .'</td>';
-                }
-                else if (strtolower((string) $_SESSION['role']) == "siteman") {
-                    echo '<td>'.tampilTombolEditData($row['id_utama'], "additive", NULL, NULL, NULL, NULL).tampilTombolHapusData($row['id_utama'], "additive", NULL, NULL, NULL).'</td>';
+                if (strtolower((string)$_SESSION['role']) == "analyst") {
+                    echo '<td>' . tampilTombolEditData($jenisPackage, $pkg_name, $itm_code, $id_pkg, $tgl_masuk, $quantity) . tampilTombolPrint($idA, $idT, "add", $dataCol, $approval) . '</td>';
+                } else if (strtolower((string)$_SESSION['role']) == "siteman") {
+                    echo '<td>' . tampilTombolEditData($row['id_utama'], "additive", NULL, NULL, NULL, NULL) . tampilTombolHapusData($row['id_utama'], "additive", NULL, NULL, NULL) . '</td>';
                 }
 
 
                 echo '</tr>';
             }
 
-        }
-        else {
+        } else {
             echo '
                 <tr>
                     <td colspan="9" class="text-center">Tidak AdAa Data</td>
@@ -435,9 +437,9 @@ function tampilTabel($jenis_tabel, $koneksi) {
 ///
 if (isset($_POST['submited'])) {
     // AMBIL DATA USER INPUT
-     print_r($_POST);
-    if($_POST['submited'] == "tambah-add") {
-
+//     print_r($_POST);
+    if ($_POST['submited'] == "tambah-add") {
+//        print_r($_POST);
         $docNumber = $_POST['docNumber'];
         $issuedDate = $_POST['issuedDate'];
         $lotNumber = $_POST['lotNumber'];
@@ -447,6 +449,10 @@ if (isset($_POST['submited'])) {
 
         $Quantity = $_POST['Quantity'];
 
+        $inspectorForm = $_POST['inspectorForm'];
+        $remarkForm = $_POST['remarkForm'];
+
+
         // ==== KONEKSI DATABASE
         $koneksi = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_DATABASE);
 
@@ -455,18 +461,17 @@ if (isset($_POST['submited'])) {
         }
         // ====== END KONEKSI
 
-        $sql_insert = "INSERT INTO `tbl_utama_add`(`id_utama`, `doc_no`, `date`, `lot_no`, `id_item_add`, `quantity`) VALUES ('NULL','$docNumber','$issuedDate','$lotNumber','$itemId','$Quantity')";
+        $sql_insert = "INSERT INTO `tbl_utama_add`(`id_utama`, `doc_no`, `date`, `lot_no`, `id_item_add`, `inspector`, `quantity`, `approvedBy`, `coa`, `inspection_result`, `remark`) VALUES ('NULL','$docNumber','$issuedDate','$lotNumber','$itemId','$inspectorForm','$Quantity','','','', '$remarkForm')";
+//        $sql_insert = "INSERT INTO `tbl_utama_add`(`id_utama`, `doc_no`, `date`, `lot_no`, `id_item_add`, `quantity`) VALUES ('NULL','$docNumber','$issuedDate','$lotNumber','$itemId','$Quantity')";
         $hasilInsert = $koneksi->query($sql_insert);
-
+//s
         if ($hasilInsert) {
             $FLAG_INSERT = 1;
-        }
-        else {
+        } else {
             $FLAG_INSERT = -1;
         }
 
-    }
-    else if ($_POST['submited'] == "tambah-pkg") {
+    } else if ($_POST['submited'] == "tambah-pkg") {
         $docNumber = $_POST['docNumber'];
         $issuedDate = $_POST['issuedDate'];
         $receiveTime = $_POST['receiveTime'];
@@ -499,10 +504,9 @@ if (isset($_POST['submited'])) {
 
         $hasilInsert = $koneksi->query($sqlInsertUtama);
 
-        if($hasilInsert) {
+        if ($hasilInsert) {
             $FLAG_INSERT = 1;
-        }
-        else {
+        } else {
             $FLAG_INSERT = -1;
         }
 
@@ -520,51 +524,81 @@ if (isset($_POST['submited'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <title> LIMS </title>
     <!-- datepicker -->
-    <link href="../theme/dist/assets/libs/air-datepicker/css/datepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="../theme/dist/assets/libs/air-datepicker/css/datepicker.min.css" rel="stylesheet" type="text/css"/>
 
-    <link href="../theme/dist/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <link href="../theme/dist/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
     <!-- jvectormap -->
-    <link href="../theme/dist/assets/libs/jqvmap/jqvmap.min.css" rel="stylesheet" />
+    <link href="../theme/dist/assets/libs/jqvmap/jqvmap.min.css" rel="stylesheet"/>
 
     <!-- Bootstrap Css -->
-    <link href="../theme/dist/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../theme/dist/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <!-- Icons Css -->
-    <link href="../theme/dist/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="../theme/dist/assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
     <!-- App Css-->
-    <link href="../theme/dist/assets/css/app.min.css" rel="stylesheet" type="text/css" />
+    <link href="../theme/dist/assets/css/app.min.css" rel="stylesheet" type="text/css"/>
 
     <!-- DataTables -->
-    <link href="../theme/dist/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <link href="../theme/dist/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="../theme/dist/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet"
+          type="text/css"/>
+    <link href="../theme/dist/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet"
+          type="text/css"/>
 
     <!-- Responsive datatable examples -->
-    <link href="../lims/theme/dist/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="../lims/theme/dist/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css"
+          rel="stylesheet" type="text/css"/>
 
-    <link href="../lims/theme/dist/assets/libs/air-datepicker/css/datepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="../lims/theme/dist/assets/libs/air-datepicker/css/datepicker.min.css" rel="stylesheet" type="text/css"/>
 
-    <link href="../lims/theme/dist/assets/libs/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" type="text/css" />
+    <link href="../lims/theme/dist/assets/libs/bootstrap-select/css/bootstrap-select.css" rel="stylesheet"
+          type="text/css"/>
 
-    <link href="../lims/theme/dist/assets/css/timepicker.css" rel="stylesheet" type="text/css" />
+    <link href="../lims/theme/dist/assets/css/timepicker.css" rel="stylesheet" type="text/css"/>
 
     <style>
-        .datepicker{
+        .datepicker {
             z-index: 999999999999999 !important;
         }
 
-        .timepicker{
+        .timepicker {
             z-index: 999999999999999 !important;
         }
-        $('.timepicker').timepicker({ zindex: 9999999});
-        .bootstrap-timepicker-widget.dropdown-menu {
-            z-index: 99999!important;
+
+        $
+        (
+        '.timepicker'
+        )
+        .
+        timepicker
+
+        (
+        {
+            zindex: 9999999
         }
+        )
+        ;
+        .bootstrap-timepicker-widget.dropdown-menu {
+            z-index: 99999 !important;
+        }
+
         .ui-timepicker-container {
             z-index: 3500 !important;
         }
-        $('.timepicker').timepicker({
+
+        $
+        (
+        '.timepicker'
+        )
+        .
+        timepicker
+
+        (
+        {
             showInputs: false
-        })
-        });
+        }
+        )
+        }
+        )
+        ;
 
     </style>
 </head>
@@ -590,9 +624,9 @@ if (isset($_POST['submited'])) {
 
             <!-- Page-Title -->
             <?php
-                if (isset($_GET['page'])) {
-                    if($_GET['page'] == "packaging") {
-                        echo ' <div class="page-title-box">
+            if (isset($_GET['page'])) {
+                if ($_GET['page'] == "packaging") {
+                    echo ' <div class="page-title-box">
                             <div class="container-fluid">
                                 <div class="row align-items-center">
                                     <div class="col-md-8">
@@ -604,22 +638,21 @@ if (isset($_POST['submited'])) {
                                     <div class="col-md-4">
                                        <div class="float-right d-none d-md-block">
                                             <div class="dropdown">';
-                        echo   tampilTombolTambahData();
-                        echo   tampilTombolExportData();
+                    echo tampilTombolTambahData();
+                    echo tampilTombolExportData();
 
-                        echo '              </div>
+                    echo '              </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         ';
-                        tampilTabel("packaging", $koneksi);
+                    tampilTabel("packaging", $koneksi);
 
-                    }
-                    else if ($_GET['page'] == "additive") {
-                        // echo "additive";
-                        echo ' <div class="page-title-box">
+                } else if ($_GET['page'] == "additive") {
+                    // echo "additive";
+                    echo ' <div class="page-title-box">
                             <div class="container-fluid">
                                 <div class="row align-items-center">
                                     <div class="col-md-8">
@@ -631,66 +664,70 @@ if (isset($_POST['submited'])) {
                                     <div class="col-md-4">
                                        <div class="float-right d-none d-md-block">
                                             <div class="dropdown">';
-                        echo   tampilTombolTambahData();
-                        echo   tampilTombolExportData();
+                    echo tampilTombolTambahData();
+                    echo tampilTombolExportData();
 
-                        echo'                  </div>
+                    echo '                  </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>';
-                        tampilTabel("additive", $koneksi);
+                    tampilTabel("additive", $koneksi);
 
-                    }
+                }
 
 
-                }else { ?>
-                    <div class="page-title-box">
-                        <div class="container-fluid">
-                            <div class="row align-items-center">
-                                <div class="col-md-8">
-                                    <h4 class="page-title mb-1">Dashboard</h4>
+            } else { ?>
+                <div class="page-title-box">
+                    <div class="container-fluid">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h4 class="page-title mb-1">Dashboard</h4>
 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- end page title end breadcrumb -->
+
+                <div class="page-content-wrapper">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12 ml-auto" style="text-align: center">
+                                                <a href="index.php?page=additive"><img
+                                                            src="../theme/dist/assets/images/master.png" alt=""
+                                                            class="img-fluid"></a>
+                                                <h5>Additive</h5>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                        </div>
-                    </div>
-                    <!-- end page title end breadcrumb -->
-
-                    <div class="page-content-wrapper">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-xl-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-12 ml-auto" style="text-align: center">
-                                                    <a href="index.php?page=additive"><img src="../theme/dist/assets/images/master.png" alt="" class="img-fluid"></a>
-                                                    <h5>Additive</h5>
-                                                </div>
+                            <div class="col-xl-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12 ml-auto" style="text-align: center">
+                                                <a href="index.php?page=packaging"><img
+                                                            src="../theme/dist/assets/images/inventory.png" alt=""
+                                                            class="img-fluid"></a>
+                                                <h5>Packaging</h5>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-12 ml-auto" style="text-align: center">
-                                                    <a href="index.php?page=packaging"><img src="../theme/dist/assets/images/inventory.png" alt="" class="img-fluid"></a>
-                                                    <h5>Packaging</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> <!-- end row -->
-                        </div>
-                        <!-- end container-fluid -->
+                            </div>
+                        </div> <!-- end row -->
                     </div>
-                <?php  }
+                    <!-- end container-fluid -->
+                </div>
+            <?php }
 
             ?>
             <!-- end page-content-wrapper -->
@@ -712,14 +749,15 @@ if (isset($_POST['submited'])) {
     <!-- end main content-->
 
 
-<!-- END layout-wrapper -->
+    <!-- END layout-wrapper -->
 
 
-<!-- JAVASCRIPT -->
-<script src="../theme/dist/assets/libs/jquery/jquery.min.js"></script>
+    <!-- JAVASCRIPT -->
+    <script src="../theme/dist/assets/libs/jquery/jquery.min.js"></script>
 
-<!--    TAMBAH DATA PKG SITEMAN-->
-  <div id="modal-pkg-tambah" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-pkg-tambah" aria-hidden="true">
+    <!--    TAMBAH DATA PKG SITEMAN-->
+    <div id="modal-pkg-tambah" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-pkg-tambah"
+         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -732,72 +770,81 @@ if (isset($_POST['submited'])) {
                     <div class="modal-body">
                         <fieldset>
 
-<!--                                <label for="docNumber">Document No.</label>-->
-                                <input type="hidden" class="form-control" id="docNumber" name="docNumber" placeholder="Doc No" value="">
+                            <!--                                <label for="docNumber">Document No.</label>-->
+                            <input type="hidden" class="form-control" id="docNumber" name="docNumber"
+                                   placeholder="Doc No" value="">
 
                             <div class="form-group mb-4">
                                 <label for="issuedDate">Issued Date</label>
-                                <input type="text" class="form-control" id="issuedDate" name="issuedDate" value="<?php echo $issueDates; ?>" placeholder="Issued Date" required>
+                                <input type="text" class="form-control" id="issuedDate" name="issuedDate"
+                                       value="<?php echo $issueDates; ?>" placeholder="Issued Date" required>
                             </div>
 
                             <div class="form-group mb-4">
                                 <label for="issuedDate">Receive Time</label>
-                                <input type="text" class="form-control" id="receiveTime" name="receiveTime" value="<?php echo $ReceiveTime; ?>" placeholder="Receive Time" required>
+                                <input type="text" class="form-control" id="receiveTime" name="receiveTime"
+                                       value="<?php echo $ReceiveTime; ?>" placeholder="Receive Time" required>
                             </div>
 
                             <div class="form-row mb-4">
                                 <div class="form-group col-md-4">
                                     <label for="itemCode">Item Code</label> <br>
 
-                                    <select class="selectpicker" id="itemCode" name="itemCode" data-live-search="true" required>
+                                    <select class="selectpicker" id="itemCode" name="itemCode" data-live-search="true"
+                                            required>
                                         <option value="" selected disabled hidden>Item Code</option>
                                         <?php
                                         $sqlSelectItem = "SELECT * FROM `tbl_data_item_pkg`";
                                         $hasilQuery = $koneksi->query($sqlSelectItem);
 
-                                        while($row = $hasilQuery->fetch_array() ) {?>
-                                            <option value="<?php echo $row[0]."+%".$row[2]?>"><?php echo strtoupper($row[1]); ?></option>
-                                        <?php }?>
+                                        while ($row = $hasilQuery->fetch_array()) { ?>
+                                            <option value="<?php echo $row[0] . "+%" . $row[2] ?>"><?php echo strtoupper($row[1]); ?></option>
+                                        <?php } ?>
                                     </select>
                                     <!--  <span id="prints">asdsd</span>-->
-                                    <input type="hidden" name="itemType" id="prints" value="NULL" >
-                                    <input type="hidden" name="itemId" id="itemId" value="NULL" >
+                                    <input type="hidden" name="itemType" id="prints" value="NULL">
+                                    <input type="hidden" name="itemId" id="itemId" value="NULL">
                                 </div>
 
                                 <div class="form-group col-md-5">
                                     <label for="productName">Product Name</label>
-                                    <input type="text" class="form-control" id="productName" name="productName" placeholder="Product Name"  required>
+                                    <input type="text" class="form-control" id="productName" name="productName"
+                                           placeholder="Product Name" required>
                                 </div>
 
                             </div>
 
                             <div class="form-group mb-4">
                                 <label for="Quantity">Quantity</label>
-                                <input type="text" class="form-control" id="Quantity" name="Quantity" placeholder="Quantity" required>
+                                <input type="text" class="form-control" id="Quantity" name="Quantity"
+                                       placeholder="Quantity" required>
                             </div>
 
                             <div class="form-group mb-4">
                                 <label for="PackagingCondition">Packaging Condition</label>
-                                <input type="text" class="form-control" id="PackagingCondition" name="PackagingCondition" placeholder="Packaging Condition" >
+                                <input type="text" class="form-control" id="PackagingCondition"
+                                       name="PackagingCondition" placeholder="Packaging Condition">
                             </div>
 
                             <div class="form-group mb-4">
                                 <label for="status">Status</label>
-                                <input type="text" class="form-control" id="status" name="status"  placeholder="Status" >
+                                <input type="text" class="form-control" id="status" name="status" placeholder="Status">
                             </div>
 
                             <div class="form-group mb-4">
                                 <label for="remark">Remark</label>
-                                <input type="text" class="form-control" id="remark"  name="remark"  placeholder="Remark" >
+                                <input type="text" class="form-control" id="remark" name="remark" placeholder="Remark">
                             </div>
 
                             <div class="form-group mb-4">
                                 <label for="Submitted">Submitted Name</label>
-                                <input type="text" class="form-control" id="Submitted" value="<?php echo $_SESSION['nama_akun']; ?>" name="Submitted"  placeholder="Submitted Name" required>
+                                <input type="text" class="form-control" id="Submitted"
+                                       value="<?php echo $_SESSION['nama_akun']; ?>" name="Submitted"
+                                       placeholder="Submitted Name" required>
                             </div>
 
 
-                            <input type="hidden" name="submited" value="tambah-pkg" />
+                            <input type="hidden" name="submited" value="tambah-pkg"/>
                         </fieldset>
                     </div>
 
@@ -817,7 +864,7 @@ if (isset($_POST['submited'])) {
                                 // console.log($(this).val().split("+%"));
 
                                 var selectedItemCode = $(this).find('option:selected').text();
-                                var arr =  selectedItemCode.split("-");
+                                var arr = selectedItemCode.split("-");
                                 var typeItem = arr[0].split("P");
 
                                 console.log(typeItem);
@@ -825,47 +872,41 @@ if (isset($_POST['submited'])) {
 
                                 // PARSING ITME CODE to Product Type
 
-                                if (typeItem[1] == 08 || typeItem[1] == "08" ) { // PAIL
+                                if (typeItem[1] == 08 || typeItem[1] == "08"
+                            )
+                                { // PAIL
                                     $("#prints").val("PAIL");
                                     $("#docNumber").val("DN-PC-F-034");
                                     console.log("PAIL");
                                 }
-                            else if (typeItem[1] == 01 || typeItem[1] == "01" ) { // BOTOL
+                            else
+                                if (typeItem[1] == 01 || typeItem[1] == "01") { // BOTOL
                                     if (arr[1] > 252 && arr[1] < 256) {
                                         $("#prints").val("TUBE");
                                         $("#docNumber").val("DN-PC-F-034");
                                         console.log("TUBE");
-                                    }
-                                    else {
+                                    } else {
                                         $("#prints").val("BOTOL");
                                         $("#docNumber").val("DN-PC-F-034");
                                         console.log("BOTOL");
                                     }
-                                }
-                                else if (typeItem[1] == 04 || typeItem[1] == "04" ) { // DRUM
+                                } else if (typeItem[1] == 04 || typeItem[1] == "04") { // DRUM
                                     $("#prints").val("DRUM");
                                     $("#docNumber").val("DN-PC-F-034");
                                     console.log("DRUM");
-                                }
-
-                                else if (typeItem[1] == 05 || typeItem[1] == "05" ) { // LABEL
+                                } else if (typeItem[1] == 05 || typeItem[1] == "05") { // LABEL
                                     $("#prints").val("LABEL");
                                     console.log("LABEL");
-                                }
-
-                                else if (typeItem[1] == 03 || typeItem[1] == "03" ) { // CARTON
+                                } else if (typeItem[1] == 03 || typeItem[1] == "03") { // CARTON
                                     $("#prints").val("CARTON");
                                     $("#docNumber").val("DN-PC-F-051");
                                     console.log("CARTON");
-                                }
-
-                                else if (typeItem[1] == 02 || typeItem[1] == "02" ) { // CAP
+                                } else if (typeItem[1] == 02 || typeItem[1] == "02") { // CAP
                                     if (arr[1] == 26) {
                                         $("#prints").val("COVER CAP");
                                         $("#docNumber").val("DN-PC-F-049");
                                         console.log("COVER CAP");
-                                    }
-                                    else {
+                                    } else {
                                         $("#prints").val("CAP");
                                         $("#docNumber").val("DN-PC-F-049");
                                         console.log("CAP");
@@ -883,8 +924,8 @@ if (isset($_POST['submited'])) {
                                     $("#docNumber").val("DN-PC-F-034");
                                     console.log("DRUM");
                                 }
-                                
-                                
+
+
                                 // console.log("ID NUMBER " + $("#docNumber").val());
                             });
                         });
@@ -895,7 +936,8 @@ if (isset($_POST['submited'])) {
     </div>
 
     <!--    TAMBAH DATA ADD SITEMAN-->
-    <div id="modal-add-tambah" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-add-tambah" aria-hidden="true">
+    <div id="modal-add-tambah" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-add-tambah"
+         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -910,49 +952,67 @@ if (isset($_POST['submited'])) {
                             <form method="POST">
 
 
-                                <input type="hidden" class="form-control" id="docNumber" name="docNumber" placeholder="Doc No" value="DN-PC-F-041">
+                                <input type="hidden" class="form-control" id="docNumber" name="docNumber"
+                                       placeholder="Doc No" value="DN-PC-F-041">
                                 <div class="form-group mb-4">
                                     <label for="issuedDate">Issued Date</label>
-                                    <input type="text" class="form-control" id="issuedDate" name="issuedDate"  value="<?= $issueDates; ?>" placeholder="Issued Date">
+                                    <input type="text" class="form-control" id="issuedDate" name="issuedDate"
+                                           value="<?= $issueDates; ?>" placeholder="Issued Date">
                                 </div>
 
                                 <div class="form-group mb-4">
                                     <label for="lotNumber">Lot Number</label>
-                                    <input type="text" class="form-control" id="lotNumber" name="lotNumber" placeholder="Lot Number" required>
+                                    <input type="text" class="form-control" id="lotNumber" name="lotNumber"
+                                           placeholder="Lot Number" required>
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label for="inspectorForm">Inspector By</label>
+                                    <input type="text" class="form-control" id="inspectorForm" name="inspectorForm"
+                                           placeholder="Inspector By" value="<?= $_SESSION['nama_akun'] ?>" required>
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label for="remarkForm">Remark</label>
+                                    <input type="text" class="form-control" id="remarkForm" name="remarkForm"
+                                           placeholder="Remark" required>
                                 </div>
 
                                 <div class="form-row mb-4">
                                     <div class="form-group col-md-4">
                                         <label for="itemCode">Item Code</label> <br>
 
-                                        <select class="selectpicker"  id="additive" name="additive" data-live-search="true">
+                                        <select class="selectpicker" id="additive" name="additive"
+                                                data-live-search="true">
                                             <option value="" selected disabled hidden>Additive</option>
                                             <?php
                                             $sqlSelectItem = "SELECT * FROM `tbl_data_item_add`";
                                             $hasilQuery = $koneksi->query($sqlSelectItem);
 
-                                            while($row = $hasilQuery->fetch_array() ) {?>
-                                                <option value="<?php echo $row[0]."+%".$row[2]?>"><?php echo strtoupper($row[1]); ?></option>
-                                            <?php }?>
+                                            while ($row = $hasilQuery->fetch_array()) { ?>
+                                                <option value="<?php echo $row[0] . "+%" . $row[2] ?>"><?php echo strtoupper($row[1]); ?></option>
+                                            <?php } ?>
                                         </select>
                                         <!--  <span id="prints">asdsd</span>-->
-                                        <input type="hidden" name="itemType" id="prints" value="NULL" >
-                                        <input type="hidden" name="itemId" id="itemIdAdditive" value="NULL" >
+                                        <input type="hidden" name="itemType" id="prints" value="NULL">
+                                        <input type="hidden" name="itemId" id="itemIdAdditive" value="NULL">
                                     </div>
 
                                     <div class="form-group col-md-5">
                                         <label for="Weight">Weight</label>
-                                        <input type="text" class="form-control" id="itemWeight" name="itemWeight" placeholder="Weight" required>
+                                        <input type="text" class="form-control" id="itemWeight" name="itemWeight"
+                                               placeholder="Weight" required>
                                     </div>
 
                                 </div>
 
                                 <div class="form-group mb-4">
                                     <label for="Quantity">Quantity</label>
-                                    <input type="text" class="form-control" id="Quantity" name="Quantity" placeholder="Quantity" required>
+                                    <input type="text" class="form-control" id="Quantity" name="Quantity"
+                                           placeholder="Quantity" required>
                                 </div>
 
-                                <input type="hidden" name="submited" value="tambah-add" />
+                                <input type="hidden" name="submited" value="tambah-add"/>
                                 <div class="form-group mb-4">
                                     <button type="submit" class="btn btn-primary mt-4">Submit</button>
                                     <button type="reset" class="btn btn-outline-danger mt-4">Reset</button>
@@ -970,32 +1030,30 @@ if (isset($_POST['submited'])) {
                                             // console.log($(this).val().split("+%"));
 
                                             var selectedItemCode = $(this).find('option:selected').text();
-                                            var arr =  selectedItemCode.split("-");
+                                            var arr = selectedItemCode.split("-");
                                             var typeItem = arr[0].split("P");
 
                                             console.log(typeItem);
                                             console.log(arr);
-                                            console.log(  $("#itemIdAdditive").val());
+                                            console.log($("#itemIdAdditive").val());
 
                                             // PARSING ITME CODE to Product Type
-
-
                                             // console.log($("#prints").val());
 
                                         });
                                     });
-                      </script>
-                 </form>
+                                </script>
+                            </form>
+                    </div>
             </div>
         </div>
+
+
     </div>
 
-
-
-</div>
-
     <!--    EDIT DATA PKG SITEMAN-->
-    <div id="modal-pkg-tambah" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-pkg-tambah" aria-hidden="true">
+    <div id="modal-pkg-tambah" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-pkg-tambah"
+         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1009,71 +1067,80 @@ if (isset($_POST['submited'])) {
                         <fieldset>
 
                             <!--                                <label for="docNumber">Document No.</label>-->
-                            <input type="hidden" class="form-control" id="docNumber" name="docNumber" placeholder="Doc No" value="">
+                            <input type="hidden" class="form-control" id="docNumber" name="docNumber"
+                                   placeholder="Doc No" value="">
 
                             <div class="form-group mb-4">
                                 <label for="issuedDate">Issued Date</label>
-                                <input type="text" class="form-control" id="issuedDate" name="issuedDate" value="<?php echo $issueDates; ?>" placeholder="Issued Date" required>
+                                <input type="text" class="form-control" id="issuedDate" name="issuedDate"
+                                       value="<?php echo $issueDates; ?>" placeholder="Issued Date" required>
                             </div>
 
                             <div class="form-group mb-4">
                                 <label for="issuedDate">Receive Time</label>
-                                <input type="text" class="form-control" id="receiveTime" name="receiveTime" value="<?php echo $ReceiveTime; ?>" placeholder="Receive Time" required>
+                                <input type="text" class="form-control" id="receiveTime" name="receiveTime"
+                                       value="<?php echo $ReceiveTime; ?>" placeholder="Receive Time" required>
                             </div>
 
                             <div class="form-row mb-4">
                                 <div class="form-group col-md-4">
                                     <label for="itemCode">Item Code</label> <br>
 
-                                    <select class="selectpicker" id="itemCode" name="itemCode" data-live-search="true" required>
+                                    <select class="selectpicker" id="itemCode" name="itemCode" data-live-search="true"
+                                            required>
                                         <option value="" selected disabled hidden>Item Code</option>
                                         <?php
                                         $sqlSelectItem = "SELECT * FROM `tbl_data_item_pkg`";
                                         $hasilQuery = $koneksi->query($sqlSelectItem);
 
-                                        while($row = $hasilQuery->fetch_array() ) {?>
-                                            <option value="<?php echo $row[0]."+%".$row[2]?>"><?php echo strtoupper($row[1]); ?></option>
-                                        <?php }?>
+                                        while ($row = $hasilQuery->fetch_array()) { ?>
+                                            <option value="<?php echo $row[0] . "+%" . $row[2] ?>"><?php echo strtoupper($row[1]); ?></option>
+                                        <?php } ?>
                                     </select>
                                     <!--  <span id="prints">asdsd</span>-->
-                                    <input type="hidden" name="itemType" id="prints" value="NULL" >
-                                    <input type="hidden" name="itemId" id="itemId" value="NULL" >
+                                    <input type="hidden" name="itemType" id="prints" value="NULL">
+                                    <input type="hidden" name="itemId" id="itemId" value="NULL">
                                 </div>
 
                                 <div class="form-group col-md-5">
                                     <label for="productName">Product Name</label>
-                                    <input type="text" class="form-control" id="productName" name="productName" placeholder="Product Name"  required>
+                                    <input type="text" class="form-control" id="productName" name="productName"
+                                           placeholder="Product Name" required>
                                 </div>
 
                             </div>
 
                             <div class="form-group mb-4">
                                 <label for="Quantity">Quantity</label>
-                                <input type="text" class="form-control" id="Quantity" name="Quantity" placeholder="Quantity" required>
+                                <input type="text" class="form-control" id="Quantity" name="Quantity"
+                                       placeholder="Quantity" required>
                             </div>
 
                             <div class="form-group mb-4">
                                 <label for="PackagingCondition">Packaging Condition</label>
-                                <input type="text" class="form-control" id="PackagingCondition" name="PackagingCondition" placeholder="Packaging Condition" >
+                                <input type="text" class="form-control" id="PackagingCondition"
+                                       name="PackagingCondition" placeholder="Packaging Condition">
                             </div>
 
                             <div class="form-group mb-4">
                                 <label for="status">Status</label>
-                                <input type="text" class="form-control" id="status" name="status"  placeholder="Status" >
+                                <input type="text" class="form-control" id="status" name="status" placeholder="Status">
                             </div>
 
                             <div class="form-group mb-4">
                                 <label for="remark">Remark</label>
-                                <input type="text" class="form-control" id="remark"  name="remark"  placeholder="Remark" >
+                                <input type="text" class="form-control" id="remark" name="remark" placeholder="Remark">
                             </div>
 
                             <div class="form-group mb-4">
                                 <label for="Submitted">Submitted Name</label>
-                                <input type="text" class="form-control" id="Submitted" value="<?php echo $_SESSION['nama_akun']; ?>" name="Submitted"  placeholder="Submitted Name" required>
+                                <input type="text" class="form-control" id="Submitted"
+                                       value="<?php echo $_SESSION['nama_akun']; ?>" name="Submitted"
+                                       placeholder="Submitted Name" required>
                             </div>
 
 
-                            <input type="hidden" name="submited" value="tambah-pkg" />
+                            <input type="hidden" name="submited" value="tambah-pkg"/>
                         </fieldset>
                     </div>
 
@@ -1093,7 +1160,7 @@ if (isset($_POST['submited'])) {
                                 // console.log($(this).val().split("+%"));
 
                                 var selectedItemCode = $(this).find('option:selected').text();
-                                var arr =  selectedItemCode.split("-");
+                                var arr = selectedItemCode.split("-");
                                 var typeItem = arr[0].split("P");
 
                                 console.log(typeItem);
@@ -1101,47 +1168,41 @@ if (isset($_POST['submited'])) {
 
                                 // PARSING ITME CODE to Product Type
 
-                                if (typeItem[1] == 08 || typeItem[1] == "08" ) { // PAIL
+                                if (typeItem[1] == 08 || typeItem[1] == "08"
+                            )
+                                { // PAIL
                                     $("#prints").val("PAIL");
                                     $("#docNumber").val("DN-PC-F-034");
                                     console.log("PAIL");
                                 }
-                            else if (typeItem[1] == 01 || typeItem[1] == "01" ) { // BOTOL
+                            else
+                                if (typeItem[1] == 01 || typeItem[1] == "01") { // BOTOL
                                     if (arr[1] > 252 && arr[1] < 256) {
                                         $("#prints").val("TUBE");
                                         $("#docNumber").val("DN-PC-F-034");
                                         console.log("TUBE");
-                                    }
-                                    else {
+                                    } else {
                                         $("#prints").val("BOTOL");
                                         $("#docNumber").val("DN-PC-F-034");
                                         console.log("BOTOL");
                                     }
-                                }
-                                else if (typeItem[1] == 04 || typeItem[1] == "04" ) { // DRUM
+                                } else if (typeItem[1] == 04 || typeItem[1] == "04") { // DRUM
                                     $("#prints").val("DRUM");
                                     $("#docNumber").val("DN-PC-F-034");
                                     console.log("DRUM");
-                                }
-
-                                else if (typeItem[1] == 05 || typeItem[1] == "05" ) { // LABEL
+                                } else if (typeItem[1] == 05 || typeItem[1] == "05") { // LABEL
                                     $("#prints").val("LABEL");
                                     console.log("LABEL");
-                                }
-
-                                else if (typeItem[1] == 03 || typeItem[1] == "03" ) { // CARTON
+                                } else if (typeItem[1] == 03 || typeItem[1] == "03") { // CARTON
                                     $("#prints").val("CARTON");
                                     $("#docNumber").val("DN-PC-F-051");
                                     console.log("CARTON");
-                                }
-
-                                else if (typeItem[1] == 02 || typeItem[1] == "02" ) { // CAP
+                                } else if (typeItem[1] == 02 || typeItem[1] == "02") { // CAP
                                     if (arr[1] == 26) {
                                         $("#prints").val("COVER CAP");
                                         $("#docNumber").val("DN-PC-F-049");
                                         console.log("COVER CAP");
-                                    }
-                                    else {
+                                    } else {
                                         $("#prints").val("CAP");
                                         $("#docNumber").val("DN-PC-F-049");
                                         console.log("CAP");
@@ -1170,7 +1231,8 @@ if (isset($_POST['submited'])) {
         </div>
     </div>
     <!--    EDIT DATA ADD SITEMAN-->
-    <div id="modal-add-tambah" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-add-tambah" aria-hidden="true">
+    <div id="modal-add-tambah" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-add-tambah"
+         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1185,49 +1247,55 @@ if (isset($_POST['submited'])) {
                             <form method="POST">
 
 
-                                <input type="hidden" class="form-control" id="docNumber" name="docNumber" placeholder="Doc No" value="DN-PC-F-041">
+                                <input type="hidden" class="form-control" id="docNumber" name="docNumber"
+                                       placeholder="Doc No" value="DN-PC-F-041">
                                 <div class="form-group mb-4">
                                     <label for="issuedDate">Issued Date</label>
-                                    <input type="text" class="form-control" id="issuedDate" name="issuedDate"  value="<?= $issueDates; ?>" placeholder="Issued Date">
+                                    <input type="text" class="form-control" id="issuedDate" name="issuedDate"
+                                           value="<?= $issueDates; ?>" placeholder="Issued Date">
                                 </div>
 
                                 <div class="form-group mb-4">
                                     <label for="lotNumber">Lot Number</label>
-                                    <input type="text" class="form-control" id="lotNumber" name="lotNumber" placeholder="Lot Number" required>
+                                    <input type="text" class="form-control" id="lotNumber" name="lotNumber"
+                                           placeholder="Lot Number" required>
                                 </div>
 
                                 <div class="form-row mb-4">
                                     <div class="form-group col-md-4">
                                         <label for="itemCode">Item Code</label> <br>
 
-                                        <select class="selectpicker"  id="additive" name="additive" data-live-search="true">
+                                        <select class="selectpicker" id="additive" name="additive"
+                                                data-live-search="true">
                                             <option value="" selected disabled hidden>Additive</option>
                                             <?php
                                             $sqlSelectItem = "SELECT * FROM `tbl_data_item_add`";
                                             $hasilQuery = $koneksi->query($sqlSelectItem);
 
-                                            while($row = $hasilQuery->fetch_array() ) {?>
-                                                <option value="<?php echo $row[0]."+%".$row[2]?>"><?php echo strtoupper($row[1]); ?></option>
-                                            <?php }?>
+                                            while ($row = $hasilQuery->fetch_array()) { ?>
+                                                <option value="<?php echo $row[0] . "+%" . $row[2] ?>"><?php echo strtoupper($row[1]); ?></option>
+                                            <?php } ?>
                                         </select>
                                         <!--  <span id="prints">asdsd</span>-->
-                                        <input type="hidden" name="itemType" id="prints" value="NULL" >
-                                        <input type="hidden" name="itemId" id="itemId" value="NULL" >
+                                        <input type="hidden" name="itemType" id="prints" value="NULL">
+                                        <input type="hidden" name="itemId" id="itemId" value="NULL">
                                     </div>
 
                                     <div class="form-group col-md-5">
                                         <label for="Weight">Weight</label>
-                                        <input type="text" class="form-control" id="itemWeight" name="itemWeight" placeholder="Weight" required>
+                                        <input type="text" class="form-control" id="itemWeight" name="itemWeight"
+                                               placeholder="Weight" required>
                                     </div>
 
                                 </div>
 
                                 <div class="form-group mb-4">
                                     <label for="Quantity">Quantity</label>
-                                    <input type="text" class="form-control" id="Quantity" name="Quantity" placeholder="Quantity" required>
+                                    <input type="text" class="form-control" id="Quantity" name="Quantity"
+                                           placeholder="Quantity" required>
                                 </div>
 
-                                <input type="hidden" name="submited" value="tambah-add" />
+                                <input type="hidden" name="submited" value="tambah-add"/>
                                 <div class="form-group mb-4">
                                     <button type="submit" class="btn btn-primary mt-4">Submit</button>
                                     <button type="reset" class="btn btn-outline-danger mt-4">Reset</button>
@@ -1245,7 +1313,7 @@ if (isset($_POST['submited'])) {
                                             // console.log($(this).val().split("+%"));
 
                                             var selectedItemCode = $(this).find('option:selected').text();
-                                            var arr =  selectedItemCode.split("-");
+                                            var arr = selectedItemCode.split("-");
                                             var typeItem = arr[0].split("P");
 
                                             console.log(typeItem);
@@ -1265,62 +1333,59 @@ if (isset($_POST['submited'])) {
         </div>
 
 
-
     </div>
 
 
-
-
     <script src="../theme/dist/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../theme/dist/assets/libs/metismenu/metisMenu.min.js"></script>
-<script src="../theme/dist/assets/libs/simplebar/simplebar.min.js"></script>
-<script src="../theme/dist/assets/libs/node-waves/waves.min.js"></script>
+    <script src="../theme/dist/assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="../theme/dist/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="../theme/dist/assets/libs/node-waves/waves.min.js"></script>
 
-<script src="https://unicons.iconscout.com/release/v2.0.1/script/monochrome/bundle.js"></script>
+    <script src="https://unicons.iconscout.com/release/v2.0.1/script/monochrome/bundle.js"></script>
 
-<!-- datepicker -->
-<script src="../theme/dist/assets/libs/air-datepicker/js/datepicker.min.js"></script>
-<script src="../theme/dist/assets/libs/air-datepicker/js/i18n/datepicker.en.js"></script>
+    <!-- datepicker -->
+    <script src="../theme/dist/assets/libs/air-datepicker/js/datepicker.min.js"></script>
+    <script src="../theme/dist/assets/libs/air-datepicker/js/i18n/datepicker.en.js"></script>
 
-<!-- Required datatable js -->
-<script src="../theme/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="../theme/dist/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-<!-- Buttons examples -->
-<script src="../theme/dist/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../theme/dist/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-<script src="../theme/dist/assets/libs/jszip/jszip.min.js"></script>
-<script src="../theme/dist/assets/libs/pdfmake/build/pdfmake.min.js"></script>
-<script src="../theme/dist/assets/libs/pdfmake/build/vfs_fonts.js"></script>
-<script src="../theme/dist/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-<script src="../theme/dist/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-<script src="../theme/dist/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-<!-- Responsive examples -->
-<script src="../theme/dist/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../theme/dist/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    <!-- Required datatable js -->
+    <script src="../theme/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../theme/dist/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <!-- Buttons examples -->
+    <script src="../theme/dist/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../theme/dist/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="../theme/dist/assets/libs/jszip/jszip.min.js"></script>
+    <script src="../theme/dist/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+    <script src="../theme/dist/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+    <script src="../theme/dist/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="../theme/dist/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../theme/dist/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <!-- Responsive examples -->
+    <script src="../theme/dist/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../theme/dist/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
-<script src="../theme/dist/assets/libs/sweetalert2/sweetalert2.min.js"></script>
-<!-- Datatable init js -->
-<script src="../theme/dist/assets/js/pages/datatables.init.js"></script>
-<script src="../theme/dist/assets/js/pages/timepicker.js"></script>
+    <script src="../theme/dist/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+    <!-- Datatable init js -->
+    <script src="../theme/dist/assets/js/pages/datatables.init.js"></script>
+    <script src="../theme/dist/assets/js/pages/timepicker.js"></script>
 
-<script src="../theme/dist/assets/libs/bootstrap-select/js/bootstrap-select.js"></script>
-<script>
-    $(document).ready(function(){
-        $(".datepicker-here").datepicker({
-            dateFormat: "yyyy-mm-dd",
-            zIndexOffset: 1040
+    <script src="../theme/dist/assets/libs/bootstrap-select/js/bootstrap-select.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".datepicker-here").datepicker({
+                dateFormat: "yyyy-mm-dd",
+                zIndexOffset: 1040
 
+            });
+            $(".datepicker-here").css('z-index', '99999 !important');
+            $('.timepicker').timepicker({
+                showInputs: false
+            })
+            $('.datatable1').DataTable();
         });
-        $(".datepicker-here").css('z-index','99999 !important');
-        $('.timepicker').timepicker({
-            showInputs: false
-        })
-        $('.datatable1').DataTable();
-    });
 
-</script>
-<script type="text/javascript">
-</script>
+    </script>
+    <script type="text/javascript">
+    </script>
 
 
 </body>
